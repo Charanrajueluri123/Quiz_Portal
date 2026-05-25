@@ -93,7 +93,40 @@ public class QuestionDAO implements QuestionDAOInter {
 		}
 		return categoryId;
 	}
-
+// mysql rand() use
+//	public List<Question> getQuestionsByDifficultyAndCategory(String difficulty, String category) {
+//		List<Question> list = new ArrayList<>();
+//		try {
+//			con = DBConnection.getConnection();
+//			int difficulty_id = getDifficultyId(difficulty);
+//			int category_id = getCategoryId(category);
+//			String query = "select * from questions1 " + "where difficulty_id=? and category_id=? "
+//					+ "order by rand() limit 10";
+//
+//			ps = con.prepareStatement(query);
+//			ps.setInt(1, difficulty_id);
+//			ps.setInt(2, category_id);
+//			rs = ps.executeQuery();
+//			while (rs.next()) {
+//				Question q = new Question();
+//				q.setId(rs.getInt("id"));
+//				q.setQuestion(rs.getString("question"));
+//				q.setOption1(rs.getString("option1"));
+//				q.setOption2(rs.getString("option2"));
+//				q.setOption3(rs.getString("option3"));
+//				q.setOption4(rs.getString("option4"));
+//				q.setCorrectAnswer(rs.getString("correct_answer"));
+//				list.add(q);
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return list;
+//	}
+	
+//	for postrgsql
 	public List<Question> getQuestionsByDifficultyAndCategory(String difficulty, String category) {
 		List<Question> list = new ArrayList<>();
 		try {
@@ -101,7 +134,7 @@ public class QuestionDAO implements QuestionDAOInter {
 			int difficulty_id = getDifficultyId(difficulty);
 			int category_id = getCategoryId(category);
 			String query = "select * from questions1 " + "where difficulty_id=? and category_id=? "
-					+ "order by rand() limit 10";
+					+ "order by RANDOM() limit 10";
 
 			ps = con.prepareStatement(query);
 			ps.setInt(1, difficulty_id);
