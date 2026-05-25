@@ -1,360 +1,297 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.quiz.model.User" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="com.quiz.model.User"%>
 
 <%
-    User loggedUser = (User) session.getAttribute("user");
-    String userName = (loggedUser != null) ? loggedUser.getName() : "Admin";
-    String userInitial = userName.length() > 0 ? String.valueOf(userName.charAt(0)).toUpperCase() : "A";
+User loggedUser = (User) session.getAttribute("user");
+String userName = (loggedUser != null) ? loggedUser.getName() : "Admin";
+String userInitial = userName.length() > 0 ? String.valueOf(userName.charAt(0)).toUpperCase() : "A";
 
-    String msg = request.getParameter("msg");
+String msg = request.getParameter("msg");
 %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Question — QuizPortal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Question — QuizPortal</title>
 
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
 
-<!-- ── Navbar ──────────────────────────────────────── -->
-<nav class="app-navbar">
-  <a href="adminDashboard.jsp" class="brand">
-    <div class="brand-icon-sm">
-      <i class="bi bi-mortarboard-fill"></i>
-    </div>
-    QuizPortal
-  </a>
+	<!-- ── Navbar ──────────────────────────────────────── -->
+	<nav class="app-navbar">
+		<a href="adminDashboard.jsp" class="brand">
+			<div class="brand-icon-sm">
+				<i class="bi bi-mortarboard-fill"></i>
+			</div> QuizPortal
+		</a>
 
-  <div class="ms-auto d-flex align-items-center gap-3">
-    <span class="badge-admin">ADMIN</span>
-
-    <a href="../logout" class="navbar-user-pill text-decoration-none">
-      <div class="user-avatar"><%= userInitial %></div>
-      <span class="user-name"><%= userName %></span>
-      <i class="bi bi-box-arrow-right ms-1"
-         style="color:var(--gray-500);font-size:.85rem;"></i>
-    </a>
-  </div>
-</nav>
+		<div class="ms-auto d-flex align-items-center gap-3">
+			<span class="badge-admin">ADMIN</span> <a href="../logout"
+				class="navbar-user-pill text-decoration-none">
+				<div class="user-avatar"><%=userInitial%></div> <span
+				class="user-name"><%=userName%></span> <i
+				class="bi bi-box-arrow-right ms-1"
+				style="color: var(--gray-500); font-size: .85rem;"></i>
+			</a>
+		</div>
+	</nav>
 
-<!-- ── Sidebar ──────────────────────────────────────── -->
-<aside class="sidebar">
+	<!-- ── Sidebar ──────────────────────────────────────── -->
+	<aside class="sidebar">
 
-  <div class="sidebar-section-label">Main</div>
+		<div class="sidebar-section-label">Main</div>
 
-  <a href="adminDashboard.jsp" class="sidebar-link">
-    <i class="bi bi-grid-1x2"></i> Dashboard
-  </a>
+		<a href="adminDashboard.jsp" class="sidebar-link"> <i
+			class="bi bi-grid-1x2"></i> Dashboard
+		</a> 
+		<a href="manageQuestions.jsp" class="sidebar-link active"> <i
+			class="bi bi-plus-circle"></i> Manage Questions
+		</a>
 
-  <a href="addQuestion.jsp" class="sidebar-link active">
-    <i class="bi bi-plus-circle"></i> Add Question
-  </a>
+		<div class="sidebar-section-label">Account</div>
 
-  <div class="sidebar-section-label">Account</div>
+		<a href="../logout" class="sidebar-link"> <i
+			class="bi bi-box-arrow-right"></i> Logout
+		</a>
 
-  <a href="../logout" class="sidebar-link">
-    <i class="bi bi-box-arrow-right"></i> Logout
-  </a>
+	</aside>
 
-</aside>
+	<!-- ── Main Content ─────────────────────────────────── -->
+	<main class="main-content">
 
-<!-- ── Main Content ─────────────────────────────────── -->
-<main class="main-content">
+		<!-- Success Alert -->
+		<%
+		if ("success".equals(msg)) {
+		%>
 
-  <!-- Success Alert -->
-  <%
-  if("success".equals(msg)){
-  %>
+		<div class="alert alert-success alert-dismissible fade show shadow-sm"
+			role="alert"
+			style="max-width: 680px; border-radius: 14px; margin-bottom: 1rem;">
 
-  <div class="alert alert-success alert-dismissible fade show shadow-sm"
-       role="alert"
-       style="max-width:680px;
-              border-radius:14px;
-              margin-bottom:1rem;">
+			<i class="bi bi-check-circle-fill me-2"></i> <strong>Success!</strong>
+			Question added successfully.
 
-      <i class="bi bi-check-circle-fill me-2"></i>
+			<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		</div>
 
-      <strong>Success!</strong>
-      Question added successfully.
+		<%
+		}
+		%>
 
-      <button type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"></button>
-  </div>
+		<!-- Error Alert -->
+		<%
+		if ("error".equals(msg)) {
+		%>
 
-  <%
-  }
-  %>
+		<div class="alert alert-danger alert-dismissible fade show shadow-sm"
+			role="alert"
+			style="max-width: 680px; border-radius: 14px; margin-bottom: 1rem;">
 
-  <!-- Error Alert -->
-  <%
-  if("error".equals(msg)){
-  %>
+			<i class="bi bi-x-circle-fill me-2"></i> <strong>Error!</strong>
+			Failed to add question.
 
-  <div class="alert alert-danger alert-dismissible fade show shadow-sm"
-       role="alert"
-       style="max-width:680px;
-              border-radius:14px;
-              margin-bottom:1rem;">
+			<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		</div>
 
-      <i class="bi bi-x-circle-fill me-2"></i>
+		<%
+		}
+		%>
 
-      <strong>Error!</strong>
-      Failed to add question.
+		<div class="page-header">
+			<h2>Add New Question</h2>
+			<p>Fill in the form below to add a new quiz question to the
+				system.</p>
+		</div>
 
-      <button type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"></button>
-  </div>
+		<div style="max-width: 680px;">
 
-  <%
-  }
-  %>
+			<div class="card-custom">
 
-  <div class="page-header">
-    <h2>Add New Question</h2>
-    <p>
-      Fill in the form below to add a new quiz question to the system.
-    </p>
-  </div>
+				<div class="card-header-custom">
 
-  <div style="max-width:680px;">
+					<h5>
+						<i class="bi bi-plus-circle me-2" style="color: var(--primary);"></i>
 
-    <div class="card-custom">
+						Question Details
+					</h5>
 
-      <div class="card-header-custom">
+					<a href="adminDashboard.jsp" class="btn-outline-custom"
+						style="font-size: .8rem; padding: .4rem .9rem;"> <i
+						class="bi bi-arrow-left"></i> Back
+					</a>
 
-        <h5>
-          <i class="bi bi-plus-circle me-2"
-             style="color:var(--primary);"></i>
+				</div>
 
-          Question Details
-        </h5>
+				<div class="card-body-custom">
 
-        <a href="adminDashboard.jsp"
-           class="btn-outline-custom"
-           style="font-size:.8rem; padding:.4rem .9rem;">
+					<form action="../addQuestion" method="post" novalidate>
 
-          <i class="bi bi-arrow-left"></i> Back
-        </a>
+						<!-- Question -->
+						<div class="form-group">
 
-      </div>
+							<label class="form-label" for="question"> Question Text </label>
 
-      <div class="card-body-custom">
+							<textarea id="question" name="question" class="form-control"
+								rows="3" placeholder="Type your question here..." required
+								style="resize: vertical;"></textarea>
 
-        <form action="../addQuestion" method="post" novalidate>
+						</div>
 
-          <!-- Question -->
-          <div class="form-group">
+						<!-- Options -->
+						<div class="row g-3" style="margin-bottom: 1rem;">
 
-            <label class="form-label" for="question">
-              Question Text
-            </label>
+							<!-- Option A -->
+							<div class="col-sm-6">
 
-            <textarea id="question"
-                      name="question"
-                      class="form-control"
-                      rows="3"
-                      placeholder="Type your question here..."
-                      required
-                      style="resize:vertical;"></textarea>
+								<div class="form-group" style="margin-bottom: 0;">
 
-          </div>
+									<label class="form-label" for="opt1"> <span
+										style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: var(--primary-light); color: var(--primary); border-radius: 50%; font-size: .72rem; font-weight: 800; margin-right: .4rem;">A</span>
 
-          <!-- Options -->
-          <div class="row g-3" style="margin-bottom:1rem;">
+										Option 1
+									</label> <input type="text" id="opt1" name="option1"
+										class="form-control" placeholder="Option A" required>
 
-            <!-- Option A -->
-            <div class="col-sm-6">
+								</div>
+							</div>
 
-              <div class="form-group" style="margin-bottom:0;">
+							<!-- Option B -->
+							<div class="col-sm-6">
 
-                <label class="form-label" for="opt1">
+								<div class="form-group" style="margin-bottom: 0;">
 
-                  <span style="display:inline-flex;
-                               align-items:center;
-                               justify-content:center;
-                               width:20px;
-                               height:20px;
-                               background:var(--primary-light);
-                               color:var(--primary);
-                               border-radius:50%;
-                               font-size:.72rem;
-                               font-weight:800;
-                               margin-right:.4rem;">A</span>
+									<label class="form-label" for="opt2"> <span
+										style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: #f5f3ff; color: var(--secondary); border-radius: 50%; font-size: .72rem; font-weight: 800; margin-right: .4rem;">B</span>
 
-                  Option 1
-                </label>
-
-                <input type="text"
-                       id="opt1"
-                       name="option1"
-                       class="form-control"
-                       placeholder="Option A"
-                       required>
+										Option 2
+									</label> <input type="text" id="opt2" name="option2"
+										class="form-control" placeholder="Option B" required>
 
-              </div>
-            </div>
+								</div>
+							</div>
 
-            <!-- Option B -->
-            <div class="col-sm-6">
+							<!-- Option C -->
+							<div class="col-sm-6">
 
-              <div class="form-group" style="margin-bottom:0;">
+								<div class="form-group" style="margin-bottom: 0;">
 
-                <label class="form-label" for="opt2">
+									<label class="form-label" for="opt3"> <span
+										style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: #f0fdf4; color: var(--success); border-radius: 50%; font-size: .72rem; font-weight: 800; margin-right: .4rem;">C</span>
 
-                  <span style="display:inline-flex;
-                               align-items:center;
-                               justify-content:center;
-                               width:20px;
-                               height:20px;
-                               background:#f5f3ff;
-                               color:var(--secondary);
-                               border-radius:50%;
-                               font-size:.72rem;
-                               font-weight:800;
-                               margin-right:.4rem;">B</span>
+										Option 3
+									</label> <input type="text" id="opt3" name="option3"
+										class="form-control" placeholder="Option C" required>
 
-                  Option 2
-                </label>
+								</div>
+							</div>
 
-                <input type="text"
-                       id="opt2"
-                       name="option2"
-                       class="form-control"
-                       placeholder="Option B"
-                       required>
+							<!-- Option D -->
+							<div class="col-sm-6">
 
-              </div>
-            </div>
+								<div class="form-group" style="margin-bottom: 0;">
 
-            <!-- Option C -->
-            <div class="col-sm-6">
+									<label class="form-label" for="opt4"> <span
+										style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: #fffbeb; color: var(--warning); border-radius: 50%; font-size: .72rem; font-weight: 800; margin-right: .4rem;">D</span>
 
-              <div class="form-group" style="margin-bottom:0;">
+										Option 4
+									</label> <input type="text" id="opt4" name="option4"
+										class="form-control" placeholder="Option D" required>
 
-                <label class="form-label" for="opt3">
+								</div>
+							</div>
 
-                  <span style="display:inline-flex;
-                               align-items:center;
-                               justify-content:center;
-                               width:20px;
-                               height:20px;
-                               background:#f0fdf4;
-                               color:var(--success);
-                               border-radius:50%;
-                               font-size:.72rem;
-                               font-weight:800;
-                               margin-right:.4rem;">C</span>
+						</div>
 
-                  Option 3
-                </label>
+						<!-- Correct Answer -->
+						<div class="form-group">
 
-                <input type="text"
-                       id="opt3"
-                       name="option3"
-                       class="form-control"
-                       placeholder="Option C"
-                       required>
+							<label class="form-label" for="correctAnswer"> <i
+								class="bi bi-check-circle-fill me-1"
+								style="color: var(--success);"></i> Correct Answer
+							</label> <input type="text" id="correctAnswer" name="correctAnswer"
+								class="form-control"
+								placeholder="Type the exact text of the correct option" required>
 
-              </div>
-            </div>
+							<small
+								style="color: var(--gray-500); font-size: .78rem; margin-top: .3rem; display: block;">
 
-            <!-- Option D -->
-            <div class="col-sm-6">
+								Must exactly match one of the option texts above. </small>
 
-              <div class="form-group" style="margin-bottom:0;">
+						</div>
 
-                <label class="form-label" for="opt4">
 
-                  <span style="display:inline-flex;
-                               align-items:center;
-                               justify-content:center;
-                               width:20px;
-                               height:20px;
-                               background:#fffbeb;
-                               color:var(--warning);
-                               border-radius:50%;
-                               font-size:.72rem;
-                               font-weight:800;
-                               margin-right:.4rem;">D</span>
+						<!-- Difficulty -->
 
-                  Option 4
-                </label>
+						<div class="form-group">
 
-                <input type="text"
-                       id="opt4"
-                       name="option4"
-                       class="form-control"
-                       placeholder="Option D"
-                       required>
+							<label class="form-label" for="difficulty"> <i
+								class="bi bi-bar-chart-fill me-1" style="color: var(--primary);"></i>
 
-              </div>
-            </div>
+								Difficulty Level
 
-          </div>
+							</label> <select id="difficulty" name="difficulty" class="form-control"
+								required>
 
-          <!-- Correct Answer -->
-          <div class="form-group">
+								<option value="">Select Difficulty</option>
 
-            <label class="form-label" for="correctAnswer">
+								<option value="easy">Easy</option>
 
-              <i class="bi bi-check-circle-fill me-1"
-                 style="color:var(--success);"></i>
+								<option value="medium">Medium</option>
 
-              Correct Answer
-            </label>
+								<option value="hard">Hard</option>
 
-            <input type="text"
-                   id="correctAnswer"
-                   name="correctAnswer"
-                   class="form-control"
-                   placeholder="Type the exact text of the correct option"
-                   required>
+							</select>
 
-            <small style="color:var(--gray-500);
-                          font-size:.78rem;
-                          margin-top:.3rem;
-                          display:block;">
+						</div>
 
-              Must exactly match one of the option texts above.
-            </small>
+						<!-- Category -->
+						<div class="form-group">
+							<label class="form-label" for="category"> <i
+								class="bi bi-tags-fill me-1" style="color: var(--primary);"></i>
+								Category
+							</label> <select id="category" name="category" class="form-control"
+								required>
+								<option value="">Select Category</option>
+								<option value="Java">Java</option>
+								<option value="Python">Python</option>
+								<option value="SQL">SQL</option>
+								<option value="HTML">HTML</option>
+								<option value="CSS">CSS</option>
+							</select>
 
-          </div>
+						</div>
+						<!-- Submit Button -->
+						<div style="padding-top: .5rem;">
 
-          <!-- Submit Button -->
-          <div style="padding-top:.5rem;">
+							<button type="submit" class="btn-primary-custom"
+								style="width: auto; padding: .7rem 2rem;">
 
-            <button type="submit"
-                    class="btn-primary-custom"
-                    style="width:auto; padding:.7rem 2rem;">
+								<i class="bi bi-plus-circle me-1"></i> Add Question
+							</button>
 
-              <i class="bi bi-plus-circle me-1"></i>
-              Add Question
-            </button>
+						</div>
 
-          </div>
+					</form>
 
-        </form>
+				</div>
+			</div>
+		</div>
 
-      </div>
-    </div>
-  </div>
+	</main>
 
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

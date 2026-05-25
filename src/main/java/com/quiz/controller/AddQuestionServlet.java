@@ -25,6 +25,8 @@ public class AddQuestionServlet extends HttpServlet {
 		String option3 =request.getParameter("option3");
 		String option4 =request.getParameter("option4");
 		String correctAnswer = request.getParameter("correctAnswer");
+		String category=request.getParameter("category");
+		String difficulty=request.getParameter("difficulty");
 		Question q=new Question();
 		q.setQuestion(question);
 		q.setOption1(option1);
@@ -32,12 +34,12 @@ public class AddQuestionServlet extends HttpServlet {
 		q.setOption3(option3);
 		q.setOption4(option4);
 		q.setCorrectAnswer(correctAnswer);
+		q.setDifficulty(difficulty);
+		q.setCategory(category);
 		
 		QuestionDAO qdao=new QuestionDAO();
 		if(qdao.addQuestion(q)) {
 			HttpSession session = request.getSession();
-
-
 			UserDAOInter dao=new UserDAO();
 			ResultDAO rdao = new ResultDAO();
 			int totalQuestions = qdao.getTotalQuestions();

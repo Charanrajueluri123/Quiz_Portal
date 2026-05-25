@@ -11,6 +11,8 @@ String userInitial = userName.length() > 0 ? String.valueOf(userName.charAt(0)).
 
 List<Question> questions = (List<Question>) request.getAttribute("questions");
 int totalQ = (questions != null) ? questions.size() : 0;
+String difficulty = (String) request.getAttribute("difficulty");
+String category = (String) request.getAttribute("category");
 %>
 
 <!DOCTYPE html>
@@ -348,6 +350,8 @@ to {
 
 		<form action="${pageContext.request.contextPath}/submitQuiz"
 			method="post" id="quizForm">
+			<input type="hidden" name="difficulty" value="<%=difficulty%>">
+			<input type="hidden" name="category" value="<%=category%>">
 
 			<%
 			if (questions != null && !questions.isEmpty()) {
@@ -414,6 +418,8 @@ to {
 						<i class="bi bi-arrow-left"></i> Previous
 
 					</button>
+
+
 
 					<%
 					if (qIndex < totalQ) {

@@ -18,8 +18,14 @@ public class StartQuizServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Entered into the statring quiz");
 		QuestionDAO dao=new QuestionDAO();
-		List<Question> questions=dao.getQuestions();
+		String difficulty=request.getParameter("difficulty");
+		String category=request.getParameter("category");
+		System.out.println(difficulty);
+		System.out.println(category);
+		List<Question> questions=dao.getQuestionsByDifficultyAndCategory(difficulty, category);
 		request.setAttribute("questions", questions);
+		request.setAttribute("difficulty", difficulty);
+		request.setAttribute("category", category);
 		request.getRequestDispatcher("user/quiz.jsp").forward(request, response);
 	} 
 
