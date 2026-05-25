@@ -65,7 +65,8 @@ public class QuestionDAO implements QuestionDAOInter {
 	private int getDifficultyId(String difficulty) {
 		int difficultyId = 0;
 		try {
-			String query = "select id from difficulties where difficulty_level=?";
+//			String query = "select id from difficulties where difficulty_level=?";
+			String query = "select id from difficulties where LOWER(difficulty_level)=LOWER(?)";
 			ps = con.prepareStatement(query);
 			ps.setString(1, difficulty);
 			ResultSet rs = ps.executeQuery();
@@ -75,13 +76,15 @@ public class QuestionDAO implements QuestionDAOInter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("Diffculty_id: " + difficultyId);
 		return difficultyId;
 	}
 
 	private int getCategoryId(String category) {
 		int categoryId = 0;
 		try {
-			String query = "select id from categories where category_name=?";
+//			String query = "select id from categories where category_name=?";
+			String query = "select id from categories where LOWER(category_name)=LOWER(?)";
 			ps = con.prepareStatement(query);
 			ps.setString(1, category);
 			ResultSet rs = ps.executeQuery();
@@ -91,6 +94,7 @@ public class QuestionDAO implements QuestionDAOInter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("category_name:" + categoryId);
 		return categoryId;
 	}
 // mysql rand() use
@@ -125,7 +129,7 @@ public class QuestionDAO implements QuestionDAOInter {
 //
 //		return list;
 //	}
-	
+
 //	for postrgsql
 	public List<Question> getQuestionsByDifficultyAndCategory(String difficulty, String category) {
 		List<Question> list = new ArrayList<>();
@@ -164,7 +168,8 @@ public class QuestionDAO implements QuestionDAOInter {
 		try {
 			con = DBConnection.getConnection();
 			String query = "select q.*,d.difficulty_level,c.category_name " + "from questions1 q "
-					+ "join difficulties d on q.difficulty_id=d.id " + "join categories c on q.category_id=c.id order by q.category_id";
+					+ "join difficulties d on q.difficulty_id=d.id "
+					+ "join categories c on q.category_id=c.id order by q.category_id";
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
 			while (rs.next()) {

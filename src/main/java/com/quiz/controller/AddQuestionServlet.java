@@ -27,6 +27,8 @@ public class AddQuestionServlet extends HttpServlet {
 		String correctAnswer = request.getParameter("correctAnswer");
 		String category=request.getParameter("category");
 		String difficulty=request.getParameter("difficulty");
+		System.out.println("Category: "+category);
+		System.out.println("Difficulty: "+difficulty);
 		Question q=new Question();
 		q.setQuestion(question);
 		q.setOption1(option1);
