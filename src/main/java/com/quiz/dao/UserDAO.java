@@ -14,11 +14,11 @@ public class UserDAO implements UserDAOInter {
 	ResultSet rs = null;
 
 	public boolean registerUser(User u) {
-		
+
 		String query = "insert into users(name,email,password,role) values(?,?,?,?)";
 		try {
 			con = DBConnection.getConnection();
-			if(con==null) {
+			if (con == null) {
 				System.out.println("con not working");
 			}
 			ps = con.prepareStatement(query);
@@ -39,47 +39,71 @@ public class UserDAO implements UserDAOInter {
 		}
 		return false;
 	}
-	
-	public User loginUser(String email,String password) {
-		User user=null;
-		con=DBConnection.getConnection();
-		String query="select *from users where email=? and password=?";
+
+	public User loginUser(String email, String password) {
+		User user = null;
+		con = DBConnection.getConnection();
+		String query = "select *from users where email=? and password=?";
 		try {
-			ps=con.prepareStatement(query);
+			ps = con.prepareStatement(query);
 			ps.setString(1, email);
 			ps.setString(2, password);
-			rs=ps.executeQuery();
-			if(rs.next()) {
-				user=new User();
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				user = new User();
 				user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setRole(rs.getString("role"));
+				user.setEmail(rs.getString("email"));
+				user.setRole(rs.getString("role"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return user;
 	}
-	
-	
-	
+
 	public int getTotalUsers() {
-		int count=0;
+		int count = 0;
 		try {
-			con=DBConnection.getConnection();
-			String query="select count(*) from users where role='USER'";
-			ps=con.prepareStatement(query);
-			rs=ps.executeQuery();
-			if(rs.next()) {
-				count=rs.getInt(1);
+			con = DBConnection.getConnection();
+			String query = "select count(*) from users where role='USER'";
+			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
 			}
-			
-		}
-		catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return count;
 	}
-	
+
+	public boolean emailExists(String email) {
+		boolean status = false;
+		try {
+			Connection con = DBConnection.getConnection();
+			PreparedStatement ps = con.prepareStatement("select * from users where email=?");
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			status = rs.next();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
+
+	public void updatePassword(String email, String password) {
+		try {
+			Connection con = DBConnection.getConnection();
+			PreparedStatement ps = con.prepareStatement("update users set password=? where email=?");
+			ps.setString(1, password);
+			ps.setString(2, email);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
