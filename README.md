@@ -1,5 +1,21 @@
 # 🚀 Quiz Portal - Online Quiz Management System
 
+
+
+## 🌐 Live Demo
+
+**🔗 Application:** https://quiz-portal-9hlm.onrender.com/
+
+> **Admin Login**
+>
+> Email: admin@gmail.com
+>
+> Password: admin
+
+> **User Login**
+>
+> Register a new account or use an existing user account.
+
 ## 📌 Project Overview
 
 Quiz Portal is a full-stack Java web application that enables administrators to manage quizzes and users to participate in quizzes through an interactive web interface.
