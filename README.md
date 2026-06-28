@@ -144,7 +144,7 @@ The application uses the following PostgreSQL tables:
 ## 1. Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Quiz_Portal.git
+git clone https://github.com/Charanrajueluri123/Quiz_Portal.git
 ```
 
 ---
@@ -310,7 +310,7 @@ During deployment, several issues were encountered and resolved:
 
 Add screenshots here.
 
-```
+
 Home Page
 <img width="1913" height="872" alt="image" src="https://github.com/user-attachments/assets/361d438a-76c4-4213-b46b-f3ce985f07d3" />
 <img width="1917" height="880" alt="image" src="https://github.com/user-attachments/assets/f976576e-75cb-4a21-99f6-05872fc6c653" />
@@ -340,11 +340,6 @@ User Login
 <img width="1915" height="872" alt="image" src="https://github.com/user-attachments/assets/55521b89-121b-4afa-bd92-7fd22008de4b" />
 <img width="1908" height="857" alt="image" src="https://github.com/user-attachments/assets/bc3c303f-015c-4c23-8c2a-e33ab38fddff" />
 
-
-Start Quiz
-
-Quiz Result
-```
 
 ---
 
